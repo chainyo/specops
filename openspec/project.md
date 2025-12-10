@@ -50,7 +50,7 @@ Core goals:
 
 - `strict` mode enabled
 - Biome for formatting, linting, and type checks
-- Two space indentation
+- Tab indentation (hard tabs)
 - Use `@/` imports for internal modules
 - UI primitives live under `src/components/ui`
 - Tailwind utilities for layout and simple styling
