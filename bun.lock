@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "desktop-app-template",
+      "name": "specops",
       "dependencies": {
         "@hookform/resolvers": "^5.2.2",
         "@radix-ui/react-accordion": "^1.2.12",

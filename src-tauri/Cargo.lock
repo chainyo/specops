@@ -691,20 +691,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "desktop-app-template"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-dialog",
- "tauri-plugin-opener",
- "tempfile",
- "thiserror 2.0.17",
-]
-
-[[package]]
 name = "digest"
 version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3484,6 +3470,20 @@ dependencies = [
  "gobject-sys",
  "libc",
  "system-deps",
+]
+
+[[package]]
+name = "specops"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tauri-plugin-opener",
+ "tempfile",
+ "thiserror 2.0.17",
 ]
 
 [[package]]
