@@ -1,15 +1,22 @@
-## ADDED Requirements
+# project-discovery Specification
 
+## Purpose
+TBD - created by archiving change add-project-discovery. Update Purpose after archive.
+## Requirements
 ### Requirement: Add local project
-The system SHALL allow a user to add a local git work tree by selecting a filesystem path.
+The system SHALL allow a user to add a local git work tree by selecting a folder from a native picker.
 
 #### Scenario: Add valid git work tree
-- **WHEN** the user selects a path that is a git work tree
+- **WHEN** the user selects a folder that is a git work tree
 - **THEN** the system adds a project entry tied to that path
 
 #### Scenario: Reject non-git folder
-- **WHEN** the user selects a path that is not a git work tree
+- **WHEN** the user selects a folder that is not a git work tree
 - **THEN** the system informs the user and does not add a project entry
+
+#### Scenario: Picker starts at user home
+- **WHEN** the user opens the folder picker
+- **THEN** the picker starts at the user's home directory
 
 ### Requirement: Detect OpenSpec folder
 The system SHALL detect whether an added project contains an `openspec/` directory at the repository root.
@@ -32,3 +39,4 @@ The system SHALL display a list of added projects with repository name, path, an
 #### Scenario: No projects
 - **WHEN** the user has not added any projects
 - **THEN** the UI shows an empty state for the project list
+

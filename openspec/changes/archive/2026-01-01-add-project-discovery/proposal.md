@@ -7,6 +7,7 @@ This establishes the backend-to-frontend path for filesystem checks and creates 
 ## What Changes
 - Add a project discovery capability for local git repositories.
 - Detect presence of an `openspec/` folder at the repository root.
+- Use a native folder picker that starts at the user's home directory.
 - Display a project list with OpenSpec status in the cockpit UI.
 
 ## Impact
