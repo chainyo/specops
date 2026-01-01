@@ -1,8 +1,8 @@
 import { homeDir } from "@tauri-apps/api/path";
 import { open } from "@tauri-apps/plugin-dialog";
-import { Loader2, Plus } from "lucide-react";
-import { useState } from "react";
-
+import { Loader2, Plus, WandSparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { OpenSpecInitDialog } from "@/components/openspec-init-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,13 +21,15 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { getOpenSpecCliStatus } from "@/lib/openspec";
 import { discoverProject } from "@/lib/projects";
 import {
 	createProjectFromDiscovery,
 	openSpecStatusLabel,
 	useProjectsStore,
 } from "@/stores/projects";
-import type { ProjectDiscoveryError } from "@/types/projects";
+import type { OpenSpecCliStatus } from "@/types/openspec";
+import type { Project, ProjectDiscoveryError } from "@/types/projects";
 import "./App.css";
 
 function App() {
@@ -36,6 +38,30 @@ function App() {
 
 	const [error, setError] = useState<string | null>(null);
 	const [isDiscovering, setIsDiscovering] = useState(false);
+	const [openSpecCliStatus, setOpenSpecCliStatus] =
+		useState<OpenSpecCliStatus | null>(null);
+	const [activeInitProject, setActiveInitProject] = useState<Project | null>(
+		null,
+	);
+
+	useEffect(() => {
+		let isActive = true;
+		getOpenSpecCliStatus()
+			.then((status) => {
+				if (isActive) {
+					setOpenSpecCliStatus(status);
+				}
+			})
+			.catch(() => {
+				if (isActive) {
+					setOpenSpecCliStatus({ available: false, version: null });
+				}
+			});
+
+		return () => {
+			isActive = false;
+		};
+	}, []);
 
 	const handlePickProject = async () => {
 		setError(null);
@@ -127,6 +153,7 @@ function App() {
 											<TableHead>Repository</TableHead>
 											<TableHead>Path</TableHead>
 											<TableHead>OpenSpec</TableHead>
+											<TableHead>Actions</TableHead>
 										</TableRow>
 									</TableHeader>
 									<TableBody>
@@ -162,6 +189,24 @@ function App() {
 															{statusLabel}
 														</Badge>
 													</TableCell>
+													<TableCell>
+														{project.openspecStatus === "missing" ? (
+															<Button
+																type="button"
+																size="icon-sm"
+																variant="secondary"
+																aria-label="Initialize OpenSpec"
+																title="Initialize OpenSpec"
+																onClick={() => setActiveInitProject(project)}
+															>
+																<WandSparkles className="size-4" />
+															</Button>
+														) : (
+															<span className="text-xs text-muted-foreground">
+																-
+															</span>
+														)}
+													</TableCell>
 												</TableRow>
 											);
 										})}
@@ -177,6 +222,14 @@ function App() {
 					</CardContent>
 				</Card>
 			</div>
+			<OpenSpecInitDialog
+				open={!!activeInitProject}
+				project={activeInitProject}
+				cliStatus={openSpecCliStatus}
+				onClose={() => setActiveInitProject(null)}
+				onProjectUpdated={addProject}
+				onCliStatusChange={setOpenSpecCliStatus}
+			/>
 		</main>
 	);
 }
